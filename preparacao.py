@@ -9,7 +9,6 @@ df = pd.read_csv('car data.csv')
 df['Car_Age'] = 2024 - df['Year']
 
 # 3. Limpeza: Remover colunas que não vamos usar
-# Removemos 'Year' (pois já temos a idade) e 'Car_Name' (muitos nomes atrapalham agora)
 df.drop(['Year', 'Car_Name'], axis=1, inplace=True)
 
 # 4. Encoding: Transformar texto em números
