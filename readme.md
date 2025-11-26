@@ -1,81 +1,59 @@
 # 🚗 Estimativa de Preços de Veículos Usados
 
-> **Disciplina:** C318 - Fundamentos de Machine Learning  
-> **Instituto Nacional de Telecomunicações - Inatel** > **Modelo:** Regressão Linear Múltipla
+> **Disciplina:** C318 - Fundamentos de Machine Learning
+> **Instituto Nacional de Telecomunicações - Inatel**
+> **Modelo Final:** Random Forest Regressor (R² = 0.96)
 
 ---
 
 ## 📋 Sobre o Projeto
-Este projeto visa desenvolver um modelo de Machine Learning capaz de prever o preço de venda de carros usados com base em características como ano de fabricação, quilometragem, tipo de combustível e vendedor.
+Este projeto visa desenvolver um modelo de Machine Learning capaz de prever o preço de venda de carros usados com alta precisão.
 
 O objetivo é auxiliar revendedores e proprietários a precificarem seus veículos de forma justa e competitiva, utilizando dados históricos para reduzir a subjetividade da avaliação humana.
 
 ## ❓ Perguntas de Negócio
-O projeto busca responder às seguintes questões:
 1. Quais características (ex: Ano, Combustível, Transmissão) mais influenciam o preço final do veículo?
-2. É possível prever o preço de revenda com uma margem de erro aceitável utilizando um modelo linear simples?
-3. Qual o impacto da idade do carro na sua desvalorização imediata?
+2. É possível prever o preço de revenda com uma margem de erro aceitável?
+3. Qual algoritmo performa melhor para este cenário: modelos lineares ou baseados em árvore?
 
 ## 🛠 Tecnologias Utilizadas
 * **Linguagem:** Python 3
-* **Bibliotecas:**
-    * `Pandas`: Manipulação e análise de dados.
-    * `Seaborn` / `Matplotlib`: Visualização de dados (Heatmaps, Scatter plots).
-    * `Scikit-Learn`: Criação do modelo de Regressão, pré-processamento e métricas de avaliação.
+* **Bibliotecas:** `Pandas`, `Seaborn`, `Scikit-Learn`.
 
 ## 📂 Dataset
-Foi utilizado o **"Vehicle dataset from Cardekho"**, disponível publicamente no Kaggle.
-* **Fonte:** [Kaggle Link](https://www.kaggle.com/nehalbirla/vehicle-dataset-from-cardekho)
-* **Principais Colunas:**
-    * `Selling_Price`: Preço de venda (Target).
-    * `Present_Price`: Preço de tabela atual.
-    * `Kms_Driven`: Quilometragem rodada.
-    * `Fuel_Type`: Tipo de combustível (Petrol, Diesel, CNG).
-    * `Seller_Type`: Tipo de vendedor (Individual ou Dealer).
-    * `Transmission`: Câmbio (Manual ou Automatic).
+Foi utilizado o **"Vehicle dataset from Cardekho"**, disponível no Kaggle.
+* **Variáveis Chave:** `Selling_Price` (Target), `Present_Price`, `Kms_Driven`, `Fuel_Type`, `Seller_Type`, `Transmission`.
 
-## 🚀 Etapas do Desenvolvimento
+## 🚀 Metodologia
 
-### 1. Análise Exploratória de Dados (EDA)
-Realizamos a visualização dos dados para entender correlações:
-* **Mapa de Calor:** Identificou forte correlação positiva entre o *Preço de Tabela* e o *Preço de Venda*.
-* **Scatter Plot:** Confirmou a tendência linear de desvalorização conforme o aumento da idade do veículo.
-* **Boxplot:** Mostrou que revendedoras (*Dealers*) tendem a praticar preços mais elevados que vendedores individuais.
+### 1. Pré-processamento
+* **Feature Engineering:** Criação da variável `Car_Age` (2024 - Ano Fabricação).
+* **Limpeza:** Remoção de colunas redundantes.
+* **Encoding:** Transformação de variáveis categóricas (One-Hot Encoding).
 
-### 2. Pré-processamento
-Para preparar os dados para o modelo:
-* **Feature Engineering:** Criação da variável `Car_Age` (Idade do Carro) subtraindo o ano de fabricação do ano atual.
-* **Limpeza:** Remoção da coluna `Car_Name` (alta cardinalidade) e `Year` (redundante após criação da idade).
-* **Encoding:** Aplicação de *One-Hot Encoding* para transformar variáveis categóricas (`Fuel_Type`, `Transmission`) em numéricas.
+### 2. Modelagem (Estratégia Challenger)
+Adotamos uma abordagem comparativa para garantir a melhor performance:
+1.  **Baseline (Linha de Base):** Regressão Linear Múltipla.
+2.  **Challenger (Desafiante):** Random Forest Regressor (Ensemble Method).
 
-### 3. Modelagem
-Utilizamos o algoritmo de **Regressão Linear Múltipla**.
-* **Divisão dos dados:** 80% para Treino e 20% para Teste.
-* **Motivação:** O problema apresenta características lineares fortes e buscamos um modelo interpretável (Navalha de Occam).
+## 📊 Resultados e Comparação
 
-## 📊 Resultados e Métricas
+O modelo **Random Forest** superou significativamente a Regressão Linear, demonstrando que a relação entre as variáveis e o preço não é puramente linear.
 
-O modelo obteve uma performance satisfatória para o escopo do projeto:
+| Métrica | Regressão Linear | Random Forest (Campeão) | Melhoria |
+| :--- | :--- | :--- | :--- |
+| **R² Score** | 0.8490 | **0.9600** | +13% |
+| **Erro (MAE)** | 1.21 Lakhs | **0.63 Lakhs** | -48% (Erro reduzido pela metade) |
 
-| Métrica | Resultado | Descrição |
-| :--- | :--- | :--- |
-| **R² Score** | **0.85** | O modelo consegue explicar 85% da variação dos preços dos carros. |
-| **MAE** | **1.22** | Erro Médio Absoluto das previsões. |
-
-### Principais Insights (Coeficientes)
-A análise dos pesos do modelo revelou que:
-1.  **Preço de Tabela (`Present_Price`):** É o maior impulsionador do valor de revenda.
-2.  **Idade (`Car_Age`):** É o principal fator de desvalorização (coeficiente negativo).
-3.  **Venda por Loja:** Veículos vendidos por concessionárias têm uma valorização automática em comparação a vendas particulares.
+### Interpretação dos Resultados
+* **R² de 0.96:** O modelo final consegue explicar 96% da variação de preços. Isso é considerado um resultado excepcional para precificação de ativos.
+* **Importância das Variáveis:** O Random Forest identificou que o **Preço de Tabela (Present_Price)** é o fator dominante, seguido pela **Idade do Carro**.
 
 ## 📦 Como executar
-1.  Clone este repositório.
-2.  Instale as dependências:
+1.  Instale as dependências: `pip install pandas seaborn matplotlib scikit-learn`
+2.  Execute o script de comparação:
     ```bash
-    pip install pandas seaborn matplotlib scikit-learn
+    python comparacao_modelos.py
     ```
-3.  Certifique-se de que o arquivo `car data.csv` está na raiz.
-4.  Execute o script principal:
-    ```bash
-    python modelo_regressao.py
-    ```
+
+---
