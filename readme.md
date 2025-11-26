@@ -60,7 +60,7 @@ O modelo obteve uma performance satisfatória para o escopo do projeto:
 | Métrica | Resultado | Descrição |
 | :--- | :--- | :--- |
 | **R² Score** | **0.85** | O modelo consegue explicar 85% da variação dos preços dos carros. |
-| **MAE** | *Verificar no output* | Erro Médio Absoluto das previsões. |
+| **MAE** | **1.22** | Erro Médio Absoluto das previsões. |
 
 ### Principais Insights (Coeficientes)
 A análise dos pesos do modelo revelou que:
